@@ -13,19 +13,27 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float minPitch = -30f;
     [SerializeField] private float maxPitch = 60f;
 
+    [Header("Look Behind")]
+    [SerializeField] private KeyCode lookBehindKey = KeyCode.B; // tecla para mirar atrás
+    [SerializeField, Range(2f, 15f)] private float lookBehindSmooth = 8f; // suavizado del giro 180°
+
     private float pitch = 10f;
-    private float desiredOrbitAngle = 0f; // se usa si quieres girar la cámara 180 con tecla
-    private float currentOrbitAngle = 0f;
+    private float yawOffset = 0f; // desplazamiento lateral de cámara (rotación orbital)
+    private float targetYawOffset = 0f; // para transición suave
+    private bool lookingBehind = false;
 
     private void Start()
     {
-        if (cameraTransform == null) cameraTransform = transform.GetChild(0); // fallback
+        if (cameraTransform == null) 
+            cameraTransform = transform.GetChild(0); // fallback automático
+        
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void LateUpdate()
     {
         HandlePitch();
+        HandleLookBehind();
         UpdateOrbitPosition();
     }
 
@@ -36,22 +44,31 @@ public class CameraController : MonoBehaviour
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
     }
 
-    private void UpdateOrbitPosition()
+    private void HandleLookBehind()
     {
-        // El pivot (this.transform) debe estar posicionado localmente en la cabeza (hijo del Player).
-        // La cámara es hija: la posicion deseada respecto al pivot
-        Quaternion orbitRot = Quaternion.Euler(pitch, playerTransform.eulerAngles.y + currentOrbitAngle, 0f);
-        Vector3 desiredPos = transform.position - orbitRot * Vector3.forward * distance;
+        // Al presionar la tecla, alternar el estado de "mirar atrás"
+        if (Input.GetKeyDown(lookBehindKey))
+            lookingBehind = true;
+        else if (Input.GetKeyUp(lookBehindKey))
+            lookingBehind = false;
 
-        // Suavizado de posición y mirar al pivot
-        cameraTransform.position = Vector3.Lerp(cameraTransform.position, desiredPos, smoothSpeed * Time.deltaTime);
-        cameraTransform.LookAt(transform.position + Vector3.up * 0.15f); // mira al pivot (ligero offset)
+        // Definir yaw objetivo (0 o 180)
+        targetYawOffset = lookingBehind ? 180f : 0f;
+        yawOffset = Mathf.LerpAngle(yawOffset, targetYawOffset, lookBehindSmooth * Time.deltaTime);
     }
 
-    // Opcional: función pública para forzar rotación orbital (ej. 180°)
-    public void SetOrbitAngle(float angle)
+    private void UpdateOrbitPosition()
     {
-        desiredOrbitAngle = angle;
-        currentOrbitAngle = Mathf.LerpAngle(currentOrbitAngle, desiredOrbitAngle, 10f * Time.deltaTime);
+        // Calcula rotación orbital combinando pitch + yaw del jugador + offset de cámara
+        Quaternion orbitRot = Quaternion.Euler(pitch, playerTransform.eulerAngles.y + yawOffset, 0f);
+
+        // Posición deseada de la cámara
+        Vector3 desiredPos = transform.position - orbitRot * Vector3.forward * distance;
+
+        // Suavizado de posición
+        cameraTransform.position = Vector3.Lerp(cameraTransform.position, desiredPos, smoothSpeed * Time.deltaTime);
+
+        // Cámara mira hacia el pivot (ligero offset hacia arriba)
+        cameraTransform.LookAt(transform.position + Vector3.up * 0.15f);
     }
 }
