@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Cabbage
   m_EditorClassIdentifier: 
   description: Una Deliciosa Lechuga, Lista para vender
-  thumbnail: {fileID: 0}
+  thumbnail: {fileID: -1753829310, guid: 76bacaadc5b641347a89cca3581eea24, type: 3}
   gameModel: {fileID: 0}
