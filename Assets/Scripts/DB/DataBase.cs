@@ -13,7 +13,7 @@ public class DataBase : ScriptableObject
         public bool accumulator;
         public int maxStack;
         public string description;
-        //public BaseItem item;
+        public BaseItem item;
     }
 
     public enum Type

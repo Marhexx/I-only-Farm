@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcd2a363aae57704dbc0a3dbfff48523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dB: {fileID: 11400000, guid: 63524ace6a46ce542b65527c4ed29eb2, type: 2}
+  dB: {fileID: 11400000, guid: d42a5bff786d6fb40bd36d828cede85f, type: 2}
   id: 0
   quantity: 0
   itemData:
@@ -100,6 +100,7 @@ MonoBehaviour:
     accumulator: 0
     maxStack: 0
     description: 
+    item: {fileID: 0}
   exParent: {fileID: 0}
 --- !u!1 &5181830646288065124
 GameObject:
@@ -135,7 +136,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 19, y: -19.5}
+  m_AnchoredPosition: {x: 10, y: -19.5}
   m_SizeDelta: {x: 37, y: 36}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &279029288928605493
@@ -200,7 +201,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0

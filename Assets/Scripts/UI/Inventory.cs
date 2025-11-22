@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.ComponentModel;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 public class Inventory : MonoBehaviour
@@ -22,17 +20,19 @@ public class Inventory : MonoBehaviour
    
    private List<Transform> _slots = new List<Transform>();
    public static Inventory Instance {get; private set;}
+   
+   private CanvasGroup _canvasGroup;
 
    private void Awake()
    {
-      if (Instance != null || Instance != this)
+      if (Instance != null && Instance != this) 
       {
-         Destroy(this);
+           Destroy(gameObject);
+           return;
       }
-      else
-      {
-        Instance = this;
-      }
+      Instance = this;
+     
+      _canvasGroup = GetComponent<CanvasGroup>();
    }
 
    private void Start()
@@ -43,8 +43,18 @@ public class Inventory : MonoBehaviour
          _slots.Add(newSlot);
       }
       
-      isOpen = true;
-      ToogleInventory();
+      // Inicializar cerrado
+      isOpen = false;
+
+      // Ocultar la visualización y la interacción
+      if (_canvasGroup != null)
+      {
+         _canvasGroup.alpha = 0f;
+         _canvasGroup.interactable = false;
+         _canvasGroup.blocksRaycasts = false;
+      }
+      
+      
    }
 
    public void UpdateParent(ItemUI item, Transform newParent)
@@ -56,13 +66,13 @@ public class Inventory : MonoBehaviour
 
    public void AddItem(int id, int quantity)
    {
-      ItemUI preexistenValidItem = items.Find(item => item.id == id && item.itemData.maxStack >= item.quantity + quantity);
-      if (preexistenValidItem != null)
+      ItemUI preexistentValidItem = items.Find(item => item.itemData.id == id && item.itemData.maxStack >= item.quantity + quantity);
+      if (preexistentValidItem != null)
       {
-         preexistenValidItem.quantity += quantity;
+         preexistentValidItem.quantity += quantity;
          return;
       }
-
+      
       for (int i = 0; i < _slotsCount; i++)
       {
          ItemUI itemSlot = _slots[i].childCount == 0 ? null : _slots[i].GetChild(0).GetComponent<ItemUI>();
@@ -79,22 +89,57 @@ public class Inventory : MonoBehaviour
          }
       }
    }
-
-   public void DeleteItem(int id, int quantity, bool byUse)
+   
+   public void DeleteItem(ItemUI item, int quantity, bool byUse)
    {
+      ItemUI itemToDelete = items.Find(ITEM => ITEM == item); //Aquí comparamos de script a script
+      
+      itemToDelete.quantity -= quantity;
+
+      if (!byUse) // Cuando se elimina el elemento a disposición propia
+      {
+         BaseItem spawnedItem = Instantiate(item.itemData.item);
+         spawnedItem.transform.position = player.itemSpawn.position;
+         spawnedItem.SetDataById(item.id, quantity);
+      }
+
+      if (itemToDelete.quantity <= 0) // Cuando eliminamos la misma cantidad de elementos que tenemos
+      {
+         items.Remove(itemToDelete); // Lo removemos de la lista
+         Destroy(itemToDelete.gameObject);
+      }
       
    }
    
    public void ToogleInventory()
    {
-      GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+      if (!_canvasGroup) return;
+
       isOpen = !isOpen;
+   
+      if (isOpen)
+      {
+         // Mostrar y Habilitar
+         _canvasGroup.alpha = 1f;
+         _canvasGroup.interactable = true;
+         _canvasGroup.blocksRaycasts = true;
+      
+         // Reposicionar al centro (siempre que esté abierto)
+         GetComponent<RectTransform>().anchoredPosition = Vector2.zero; 
+      }
+      else
+      {
+         // Ocultar y Deshabilitar
+         _canvasGroup.alpha = 0f;
+         _canvasGroup.interactable = false;
+         _canvasGroup.blocksRaycasts = false;
+      }
    }
 
    public void ShowDescription(ItemUI item)
    {
       descriptionUI.gameObject.SetActive(true);
-      //descriptionUI.Show(item);
+      descriptionUI.Show(item);
    }
 
    public void HideDescription()

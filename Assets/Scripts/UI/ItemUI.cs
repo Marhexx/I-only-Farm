@@ -3,13 +3,14 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using System.Collections;
 
 public class ItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] private DataBase dB;
     
-    public int id;
-    public int quantity;
+    [HideInInspector] public int id;
+    [HideInInspector] public int quantity;
     
     [HideInInspector] public DataBase.InventoryItem itemData;
     [HideInInspector] public Transform exParent;
@@ -17,6 +18,8 @@ public class ItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
     private TextMeshProUGUI _quantityText;
     private Image _iconImage;
     private Vector3 _dragOffset;
+    // Variable para almacenar la corrutina que controla el retraso
+    private Coroutine _showDescriptionRoutine;
     
     private void Awake()
     {
@@ -25,7 +28,7 @@ public class ItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
         
         exParent = transform.parent;
         
-        InitializeItem(id,  quantity);
+        //InitializeItem(id,  quantity);
     }
     
     private void Update()
@@ -42,7 +45,7 @@ public class ItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
         itemData.name = dB.dataBase[id].name;
         itemData.type = dB.dataBase[id].type;
         itemData.maxStack = dB.dataBase[id].maxStack;
-        //itemData.item = db.dataBase[id].item;
+        itemData.item = dB.dataBase[id].item;
         
         _iconImage.sprite = itemData.icon;
         
@@ -54,27 +57,51 @@ public class ItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
         if (eventData.clickCount == 2)
         {
             Inventory.Instance.HideDescription();
-            //itemData.item.Use();
-            //Inventory.Instance.DeleteItem(this, 1, true);
+            itemData.item.Use();
+            Inventory.Instance.DeleteItem(this, 1, true);
         }
+    }
+
+    public void Delete()
+    {
+        Inventory.Instance.HideDescription();
+        if(quantity < 1) Inventory.Instance.DeleteItem(this, 1, false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!eventData.dragging)
+        if (eventData.dragging) return;
+    
+        // Si ya existe una corutina (por seguridad), la detenemos.
+        if (_showDescriptionRoutine != null)
+        {
+            StopCoroutine(_showDescriptionRoutine);
+        }
+    
+        // Inicia el retraso (ej. 0.5 segundos)
+        _showDescriptionRoutine = StartCoroutine(ShowDescriptionWithDelay(0.5f));
+        
+        /*if (!eventData.dragging)
         {
             Inventory.Instance.ShowDescription(this);
-        }
+        }*/
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        // Detenemos la corrutina para cancelar la solicitud de mostrar la descripción.
+        if (_showDescriptionRoutine != null)
+        {
+            StopCoroutine(_showDescriptionRoutine);
+            _showDescriptionRoutine = null;
+        }
+        
         Inventory.Instance.HideDescription();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        //Inventory.Instance.HideDescription();
+        Inventory.Instance.HideDescription();
         _quantityText.enabled = false;
         exParent = transform.parent;
         transform.SetParent(Inventory.Instance.transform);
@@ -95,7 +122,7 @@ public class ItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
         Transform _slot = null; // Guarda la posición del item que se está arrastrando
         
         // Casteo un ray desde la posición del mouse y guardo todo lo que toca el raycastResult
-        //Inventory.Instance.graphRay.Raycast(eventData, raycastResults);
+        Inventory.Instance.graphRay.Raycast(eventData, raycastResults);
         
         // Itero todos los collider tocados
         foreach (RaycastResult hit in raycastResults)
@@ -119,7 +146,7 @@ public class ItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
                     if (hitObjItemData.itemData.id != id)
                     {
                         _slot = hitObjItemData.transform.parent;
-                        //Inventory.Instance.UpdateParent(hitObjItemData, exParent);
+                        Inventory.Instance.UpdateParent(hitObjItemData, exParent);
                         break;
                     }
                     else
@@ -128,7 +155,7 @@ public class ItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
                         {
                             quantity = hitObjItemData.quantity + quantity;  
                             _slot = hitObjItemData.transform.parent;
-                            // Inventory.Instance.DeleteItem(hitObjItemData, hitObjItemData.quantity, true);
+                            Inventory.Instance.DeleteItem(hitObjItemData, hitObjItemData.quantity, true);
                             break;
                         }
                         else
@@ -142,5 +169,15 @@ public class ItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
             }
         }
         Inventory.Instance.UpdateParent(this, _slot != null ? _slot : exParent);
+    }
+    
+    
+    private IEnumerator ShowDescriptionWithDelay(float delay)
+    {
+        // 1. Espera el tiempo de retraso (0.5 segundos en el ejemplo)
+        yield return new WaitForSeconds(delay);
+
+        // 2. Ejecuta la función de mostrar la descripción
+        Inventory.Instance.ShowDescription(this);
     }
 }

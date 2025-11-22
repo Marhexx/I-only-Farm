@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Range(50, 500)] private float mouseSensitivity = 200f;
 
     private Rigidbody _rb;
+    
+    private bool _canMoveCam = true;
 
     private void Awake()
     {
@@ -24,6 +26,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (!_canMoveCam) return;
         HandleRotation();
         HandleMovement();
     }
@@ -45,5 +48,29 @@ public class PlayerController : MonoBehaviour
             _rb.linearVelocity = new Vector3(dir.x * moveSpeed, _rb.linearVelocity.y, dir.z * moveSpeed);
         else
             _rb.linearVelocity = new Vector3(0f, _rb.linearVelocity.y, 0f); // detiene en seco
+    }
+
+    public void SetCanMoveCamera(bool allowMovement)
+    {
+        _canMoveCam = allowMovement;
+
+        if (allowMovement)
+        {
+            // Se permite el movimiento: Bloqueamos el cursor.
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        
+            // No es necesario modificar la velocidad aquí, ya que HandleMovement se ejecutará.
+        }
+        else
+        {
+            // Se prohíbe el movimiento (Inventario Abierto): Desbloqueamos el cursor.
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        
+            // DETENER EL DESPLAZAMIENTO
+            // Forzamos la velocidad horizontal (X y Z) a cero, manteniendo la gravedad (Y).
+            _rb.linearVelocity = new Vector3(0f, _rb.linearVelocity.y, 0f); 
+        }
     }
 }
