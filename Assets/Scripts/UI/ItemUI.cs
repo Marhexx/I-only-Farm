@@ -27,8 +27,6 @@ public class ItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
         _iconImage = GetComponent<Image>();
         
         exParent = transform.parent;
-        
-        //InitializeItem(id,  quantity);
     }
     
     private void Update()
@@ -81,10 +79,7 @@ public class ItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
         // Inicia el retraso (ej. 0.5 segundos)
         _showDescriptionRoutine = StartCoroutine(ShowDescriptionWithDelay(0.5f));
         
-        /*if (!eventData.dragging)
-        {
-            Inventory.Instance.ShowDescription(this);
-        }*/
+
     }
 
     public void OnPointerExit(PointerEventData eventData)
