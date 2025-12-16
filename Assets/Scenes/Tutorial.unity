@@ -6421,13 +6421,13 @@ PrefabInstance:
       addedObject: {fileID: 1289105667}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8b496265ac63fc4429329a7f39808c52, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1289105666}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8b496265ac63fc4429329a7f39808c52, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1289105670}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8b496265ac63fc4429329a7f39808c52, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1289105669}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8b496265ac63fc4429329a7f39808c52, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1289105672}
   m_SourcePrefab: {fileID: 100100000, guid: 8b496265ac63fc4429329a7f39808c52, type: 3}
 --- !u!1 &871201877
 GameObject:
@@ -6455,12 +6455,12 @@ Transform:
   m_GameObject: {fileID: 871201877}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: -4.5, z: -3}
+  m_LocalPosition: {x: 0, y: 2.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1878908026}
-  m_Father: {fileID: 1289105671}
+  m_Father: {fileID: 1289105668}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &871201879
 MonoBehaviour:
@@ -6475,7 +6475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 1878908026}
-  playerTransform: {fileID: 1289105671}
+  playerTransform: {fileID: 1289105668}
   distance: 5
   smoothSpeed: 10
   mouseSensitivity: 350
@@ -11012,6 +11012,20 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8b496265ac63fc4429329a7f39808c52, type: 3}
   m_PrefabInstance: {fileID: 853177466}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1289105666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289105665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f68928f396d07df4385fb2036c38004b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 12
+  mouseSensitivity: 350
 --- !u!136 &1289105667
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -11035,6 +11049,11 @@ CapsuleCollider:
   m_Height: 3.769825
   m_Direction: 1
   m_Center: {x: -0.014840126, y: 1.8597574, z: 0}
+--- !u!4 &1289105668 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8b496265ac63fc4429329a7f39808c52, type: 3}
+  m_PrefabInstance: {fileID: 853177466}
+  m_PrefabAsset: {fileID: 0}
 --- !u!54 &1289105669
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11075,25 +11094,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSpawn: {fileID: 1820725920}
---- !u!4 &1289105671 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8b496265ac63fc4429329a7f39808c52, type: 3}
-  m_PrefabInstance: {fileID: 853177466}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1289105672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1289105665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f68928f396d07df4385fb2036c38004b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 12
-  mouseSensitivity: 200
 --- !u!1 &1303777407
 GameObject:
   m_ObjectHideFlags: 0
@@ -13187,7 +13187,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1289105671}
+  m_Father: {fileID: 1289105668}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1878637495
 GameObject:
@@ -13308,7 +13308,7 @@ Transform:
   m_GameObject: {fileID: 1878908023}
   serializedVersion: 2
   m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
-  m_LocalPosition: {x: -1.01, y: 9.5, z: -3}
+  m_LocalPosition: {x: 0, y: 9.5, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
