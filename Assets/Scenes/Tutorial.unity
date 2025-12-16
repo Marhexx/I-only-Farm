@@ -6425,6 +6425,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8b496265ac63fc4429329a7f39808c52, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1289105669}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8b496265ac63fc4429329a7f39808c52, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1289105672}
   m_SourcePrefab: {fileID: 100100000, guid: 8b496265ac63fc4429329a7f39808c52, type: 3}
 --- !u!1 &871201877
 GameObject:
@@ -11077,6 +11080,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8b496265ac63fc4429329a7f39808c52, type: 3}
   m_PrefabInstance: {fileID: 853177466}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1289105672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289105665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f68928f396d07df4385fb2036c38004b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 12
+  mouseSensitivity: 200
 --- !u!1 &1303777407
 GameObject:
   m_ObjectHideFlags: 0
