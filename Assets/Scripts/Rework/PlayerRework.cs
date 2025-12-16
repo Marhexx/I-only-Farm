@@ -1,6 +1,6 @@
  using UnityEngine;
 
-public class Player : MonoBehaviour{
+public class PlayerRework : MonoBehaviour{
 
     private CharacterController controller;
     private Animator animator;
