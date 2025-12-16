@@ -25,9 +25,7 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         if (cameraTransform == null) 
-            cameraTransform = transform.GetChild(0); // fallback automático
-        
-        Cursor.lockState = CursorLockMode.Locked;
+            cameraTransform = transform.GetChild(0); // callback automático
     }
 
     private void LateUpdate()
