@@ -6,7 +6,7 @@ public class CameraControl: MonoBehaviour
 
     void Start()
     {
-        playerpos = GameObject.FindAnyObjectByType<Player>().transform;
+        playerpos = GameObject.FindAnyObjectByType<PlayerRework>().transform;
     }
 
 

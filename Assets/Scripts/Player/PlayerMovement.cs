@@ -9,14 +9,17 @@ public class PlayerController : MonoBehaviour
     [Header("Mouse")]
     [SerializeField, Range(50, 500)] private float mouseSensitivity = 200f;
 
+    private GameObject _panelEsc;
     private Rigidbody _rb;
-    
+    private Animator _animator;
     private bool _canMoveCam = true;
 
     private void Awake()
     {
+        _panelEsc = GameObject.Find("EscPanel");
         _rb = GetComponent<Rigidbody>();
         _rb.freezeRotation = true; // evita que la física rote el cuerpo
+        _animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -29,6 +32,9 @@ public class PlayerController : MonoBehaviour
         if (!_canMoveCam) return;
         HandleRotation();
         HandleMovement();
+        
+        if(_panelEsc.activeSelf)  Cursor.lockState = CursorLockMode.None;
+        else Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void HandleRotation()
@@ -39,15 +45,22 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
 
-        Vector3 dir = (transform.forward * v + transform.right * h).normalized;
+        Vector3 dir = (transform.forward * vertical + transform.right * horizontal).normalized;
 
         if (dir.sqrMagnitude > 0.001f)
+        {
             _rb.linearVelocity = new Vector3(dir.x * moveSpeed, _rb.linearVelocity.y, dir.z * moveSpeed);
+            _animator.SetBool("Moving", true);
+        }
         else
+        {
             _rb.linearVelocity = new Vector3(0f, _rb.linearVelocity.y, 0f); // detiene en seco
+            _animator.SetBool("Moving", false);
+        }
+            
     }
 
     public void SetCanMoveCamera(bool allowMovement)

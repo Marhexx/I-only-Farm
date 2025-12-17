@@ -227,7 +227,6 @@ GameObject:
   - component: {fileID: 4438656222355180}
   - component: {fileID: 95453353442957462}
   - component: {fileID: 114852410683311192}
-  - component: {fileID: 65164085899566286}
   m_Layer: 0
   m_Name: TownGate
   m_TagString: Untagged
@@ -287,24 +286,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
---- !u!65 &65164085899566286
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1870342349812024}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 6.5, y: 2.83, z: 2.99}
-  m_Center: {x: -0.5, y: 0, z: 0}

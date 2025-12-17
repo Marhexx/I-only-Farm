@@ -1,7 +1,7 @@
- using UnityEngine;
+using UnityEngine;
 
-public class PlayerRework : MonoBehaviour{
-
+public class PlayerRework : MonoBehaviour
+{
     private CharacterController controller;
     private Animator animator;
 
@@ -12,7 +12,6 @@ public class PlayerRework : MonoBehaviour{
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
-
     }
 
     void Update()
@@ -20,9 +19,9 @@ public class PlayerRework : MonoBehaviour{
         Move();
     }
 
-    public void Move()
-        {
-            float h = Input.GetAxis("Horizontal");
+    private void Move()
+    {
+        float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
         Vector3 dir = new Vector3(h, 0f, v).normalized;
@@ -42,7 +41,5 @@ public class PlayerRework : MonoBehaviour{
         {
             animator.SetBool("Moving", false);
         }
-        
     }
-    
 }

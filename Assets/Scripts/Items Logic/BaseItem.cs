@@ -46,7 +46,6 @@ public abstract class BaseItem : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     // Lo que hacemos aquí es detectar que si el player tocó alguno de estos items, sean añadidos al inventario
-    
     {
         if (other.transform.CompareTag("Player"))
         {

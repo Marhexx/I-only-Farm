@@ -53,8 +53,6 @@ public class Inventory : MonoBehaviour
          _canvasGroup.interactable = false;
          _canvasGroup.blocksRaycasts = false;
       }
-      
-      
    }
 
    public void UpdateParent(ItemUI item, Transform newParent)
